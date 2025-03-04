@@ -2,6 +2,8 @@ import streamlit as st
 import plotly.express as px
 import csv
 
+
+with open('vehicles_us.csv', newline='') as csvfile:
 st.title("Car Advertisement Dashboard")
 
 car_data = {'price': [], 'model_year': [], 'model': [], 'condition': [], 'cylinders': [], 'fuel': [],
