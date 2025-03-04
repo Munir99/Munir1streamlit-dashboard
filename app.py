@@ -1,23 +1,55 @@
 import streamlit as st
-import pandas as pd
 import plotly.express as px
+import csv
 
 st.title("Car Advertisement Dashboard")
 
-data = pd.read_csv('vehicles_us.csv')  
+car_data = {'price': [], 'model_year': [], 'model': [], 'condition': [], 'cylinders': [], 'fuel': [],
+            'odometer': [], 'transmission': [], 'type': [], 'paint_color': [], 'is_4wd': [], 
+            'date_posted': [], 'days_listed': []}
+
+with open('/mnt/data/vehicles_us.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        car_data['price'].append(float(row['price']) if row['price'] else 0)
+        car_data['odometer'].append(float(row['odometer']) if row['odometer'] else 0)
+        car_data['model_year'].append(int(row['model_year']) if row['model_year'] else 0)
+        car_data['cylinders'].append(row['cylinders'])
+        car_data['fuel'].append(row['fuel'])
+        car_data['transmission'].append(row['transmission'])
 
 st.header("Exploratory Data Analysis of Car Advertisements")
 
+# Histograms
 st.subheader("Distribution of Vehicle Prices")
-fig_price_hist = px.histogram(data, x='price', nbins=30, title='Distribution of Vehicle Prices')
+fig_price_hist = px.histogram(x=car_data['price'], nbins=30, title="Vehicle Price Distribution", labels={'x': 'Price ($)'})
 st.plotly_chart(fig_price_hist)
 
-st.subheader("Price vs. Mileage")
-fig_price_mileage = px.scatter(data, x='mileage', y='price', title='Price vs. Mileage', 
-                                labels={'mileage': 'Mileage (in miles)', 'price': 'Price (in USD)'})
-st.plotly_chart(fig_price_mileage)
+st.subheader("Distribution of Odometer Readings")
+fig_odometer_hist = px.histogram(x=car_data['odometer'], nbins=30, title="Odometer Distribution", labels={'x': 'Odometer (miles)'})
+st.plotly_chart(fig_odometer_hist)
 
-if st.checkbox('Show DataFrame'):
-    st.write(data)
+st.subheader("Car Model Year Distribution")
+fig_year_hist = px.histogram(x=car_data['model_year'], nbins=30, title="Model Year Distribution", labels={'x': 'Model Year'})
+st.plotly_chart(fig_year_hist)
+
+# Scatter Plots
+st.subheader("Price vs. Odometer")
+fig_price_odometer = px.scatter(x=car_data['odometer'], y=car_data['price'], color=car_data['fuel'],
+                                title="Price vs. Odometer", labels={'x': 'Odometer (miles)', 'y': 'Price ($)'})
+st.plotly_chart(fig_price_odometer)
+
+st.subheader("Price vs. Model Year")
+fig_price_year = px.scatter(x=car_data['model_year'], y=car_data['price'], color=car_data['transmission'],
+                            title="Price vs. Model Year", labels={'x': 'Model Year', 'y': 'Price ($)'})
+st.plotly_chart(fig_price_year)
+
+st.subheader("Odometer vs. Model Year")
+fig_odometer_year = px.scatter(x=car_data['model_year'], y=car_data['odometer'], color=car_data['fuel'],
+                               title="Odometer vs. Model Year", labels={'x': 'Model Year', 'y': 'Odometer (miles)'})
+st.plotly_chart(fig_odometer_year)
+
+if st.checkbox('Show Raw Data'):
+    st.write(car_data)
 else:
-    st.write("DataFrame is hidden. Check the box to display it.")
+    st.write("Raw data is hidden. Check the box to display it.")
