@@ -2,15 +2,14 @@ import streamlit as st
 import plotly.express as px
 import csv
 
-
-with open('vehicles_us.csv', newline='') as csvfile:
 st.title("Car Advertisement Dashboard")
 
 car_data = {'price': [], 'model_year': [], 'model': [], 'condition': [], 'cylinders': [], 'fuel': [],
             'odometer': [], 'transmission': [], 'type': [], 'paint_color': [], 'is_4wd': [], 
             'date_posted': [], 'days_listed': []}
 
-with open('/mnt/data/vehicles_us.csv', newline='') as csvfile:
+# Use a relative path
+with open('vehicles_us.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         car_data['price'].append(float(row['price']) if row['price'] else 0)
@@ -51,6 +50,7 @@ fig_odometer_year = px.scatter(x=car_data['model_year'], y=car_data['odometer'],
                                title="Odometer vs. Model Year", labels={'x': 'Model Year', 'y': 'Odometer (miles)'})
 st.plotly_chart(fig_odometer_year)
 
+# Raw data display
 if st.checkbox('Show Raw Data'):
     st.write(car_data)
 else:
