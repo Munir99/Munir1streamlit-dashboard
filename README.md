@@ -26,3 +26,9 @@ Make sure you have Python installed on your machine. You can download it from [p
    Open your terminal and run the following command to clone the repository:
    ```bash
    git clone https://github.com/munir99/Munir1streamlit-dashboard
+
+### GitHub Repository
+You can find the code [here](https://github.com/Munir99/Munir1streamlit-dashboard).
+
+### Live Application
+Visit the live app [here](https://munir1streamlit-dashboard-17.onrender.com).
