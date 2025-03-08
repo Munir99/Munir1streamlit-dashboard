@@ -27,6 +27,18 @@ Make sure you have Python installed on your machine. You can download it from [p
    ```bash
    git clone https://github.com/munir99/Munir1streamlit-dashboard
 
+2. **Navigate to the Project Directory**:
+   cd Munir1streamlit-dashboard
+
+3. **Install Required Packages**:
+   pip install -r requirements.txt
+
+4. **Run the Streamlit App**:
+   streamlit run app.py
+
+Your app should now be running locally.
+
+
 ### GitHub Repository
 You can find the code [here](https://github.com/Munir99/Munir1streamlit-dashboard).
 
